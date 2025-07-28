@@ -1,63 +1,90 @@
-
-let map = L.map('map').setView([46.603354, 1.888334], 6);
+let map = L.map('map').setView([46.5, 2.2], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
+  attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-let alumniList = document.getElementById('alumni-list');
-let searchInput = document.getElementById('search');
+let alumniData = [];
+let markers = [];
+let listContainer = document.getElementById('alumniList');
 
-fetch('data/alumni.json')
-    .then(response => response.json())
-    .then(data => {
-        window.alumniData = data;
-        displayAlumni(data);
-    });
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    alumniData = data;
+    populateFilters(data);
+    updateUI();
+  });
 
-function displayAlumni(data) {
-    alumniList.innerHTML = '';
-    data.forEach((alumnus, index) => {
-        let entry = document.createElement('div');
-        entry.className = 'entry';
-        if (alumnus.nom === "Karl RICHARD") entry.classList.add("moderator");
-        entry.innerHTML = `
-            <strong>${alumnus.nom}</strong> - ${alumnus.ville}<br>
-            ${alumnus.établissement || ""} (${alumnus.filière || ""})<br>
-            ${alumnus.promo || ""}<br>
-            ${alumnus.mail ? `<a href="mailto:${alumnus.mail}">Mail</a> ` : ""}
-            ${alumnus.linkedin ? `<a href="${alumnus.linkedin}" target="_blank">LinkedIn</a> ` : ""}
-            ${alumnus.instagram ? `<a href="https://instagram.com/${alumnus.instagram}" target="_blank">Instagram</a> ` : ""}
-            ${alumnus.telephone ? `<br>Tél: ${alumnus.telephone}` : ""}
-        `;
-        alumniList.appendChild(entry);
+function populateFilters(data) {
+  const promos = [...new Set(data.map(p => p.promo))].sort();
+  const villes = [...new Set(data.map(p => p.ville))].sort();
+  const etabs = [...new Set(data.map(p => p.établissement))].sort();
+  const filieres = [...new Set(data.map(p => p.filière))].sort();
 
-        L.marker([alumnus.lat, alumnus.lng])
-            .addTo(map)
-            .bindPopup(`<strong>${alumnus.nom}</strong><br>${alumnus.ville}`);
-
-        if (alumnus.nom === "Karl RICHARD") entry.id = "moderator-anchor";
-    });
+  fillSelect('filterPromo', promos);
+  fillSelect('filterVille', villes);
+  fillSelect('filterEtablissement', etabs);
+  fillSelect('filterFiliere', filieres);
 }
 
-searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
-    const filtered = window.alumniData.filter(a => a.nom.toLowerCase().includes(query) || a.ville.toLowerCase().includes(query));
-    displayAlumni(filtered);
-});
-
-document.getElementById("add-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newEntry = {};
-    formData.forEach((value, key) => newEntry[key] = value);
-    newEntry.lat = parseFloat(newEntry.lat);
-    newEntry.lng = parseFloat(newEntry.lng);
-    window.alumniData.push(newEntry);
-    displayAlumni(window.alumniData);
-    e.target.reset();
-});
-
-function scrollToModerator() {
-    const el = document.getElementById("moderator-anchor");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+function fillSelect(id, options) {
+  const select = document.getElementById(id);
+  options.forEach(opt => {
+    const o = document.createElement('option');
+    o.value = opt;
+    o.textContent = opt;
+    select.appendChild(o);
+  });
 }
+
+['filterPromo', 'filterVille', 'filterEtablissement', 'filterFiliere'].forEach(id => {
+  document.getElementById(id).addEventListener('change', updateUI);
+});
+
+function updateUI() {
+  const promo = document.getElementById('filterPromo').value;
+  const ville = document.getElementById('filterVille').value;
+  const etab = document.getElementById('filterEtablissement').value;
+  const filiere = document.getElementById('filterFiliere').value;
+
+  const filtered = alumniData.filter(a => {
+    return (!promo || a.promo === promo) &&
+           (!ville || a.ville === ville) &&
+           (!etab || a.établissement === etab) &&
+           (!filiere || a.filière === filiere);
+  });
+
+  listContainer.innerHTML = '';
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  filtered.forEach(alum => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <strong>${alum.nom}${alum.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong><br>
+      ${alum.mail ? `📧 ${alum.mail}<br>` : ''}
+      ${alum.instagram ? `📸 ${alum.instagram}<br>` : ''}
+      ${alum.linkedin ? `🔗 <a href="${alum.linkedin}" target="_blank">LinkedIn</a><br>` : ''}
+      ${alum.telephone ? `📞 ${alum.telephone}<br>` : ''}
+    `;
+    listContainer.appendChild(li);
+
+    const marker = L.marker([alum.lat, alum.lng]).addTo(map)
+      .bindPopup(`<strong>${alum.nom}</strong>`);
+
+    marker.on('click', () => {
+      document.querySelectorAll('#alumniList li').forEach(el => el.classList.remove('highlight'));
+      li.classList.add('highlight');
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar').classList.remove('closed');
+    });
+
+    markers.push(marker);
+  });
+}
+
+document.getElementById('burger').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('open');
+  sidebar.classList.toggle('closed');
+});
