@@ -2,6 +2,8 @@
     {
         "nom": "Karl Richard",
         "ville": "Bordeaux",
+        "établissement": "ENSEIRB MATMECA",
+        "filière": "électronique",
         "lat": 44.805620,
         "lng": -0.604816,
         "mail": "karlrichard215@gmail.com",
@@ -12,6 +14,8 @@
     {
         "nom": "Capes Raphaël",
         "ville": "Paris 8ème",
+        "établissement": "Fénelon Sainte Marie",
+        "filière": "PC/PC*",
         "lat": 48.8791661353171,
         "lng": 2.3167265523903557,
         "mail": "raphael0capes@gmail.com",
