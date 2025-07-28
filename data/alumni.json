@@ -2,6 +2,7 @@
     {
         "nom": "Karl RICHARD",
         "ville": "Bordeaux",
+        "promo": "PC 24-25",
         "établissement": "ENSEIRB MATMECA",
         "filière": "électronique",
         "lat": 44.805620,
@@ -14,6 +15,7 @@
     {
         "nom": "Raphaël CAPES",
         "ville": "Paris 8ème",
+        "promo":"PC* 24-25",
         "établissement": "Fénelon Sainte Marie",
         "filière": "PC/PC*",
         "lat": 48.8791661353171,
