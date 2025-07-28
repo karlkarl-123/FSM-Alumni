@@ -26,7 +26,7 @@ body, html {
 }
 #burger {
   position: absolute;
-  top: 100px;
+  top: 60px;
   right: 10px;
   font-size: 24px;
   background: white;
