@@ -111,3 +111,20 @@ document.getElementById('burger').addEventListener('click', () => {
   sidebar.classList.toggle('open');
   sidebar.classList.toggle('closed');
 });
+document.getElementById('helpButton').addEventListener('click', () => {
+  const popup = document.getElementById('helpPopup');
+  popup.classList.toggle('hidden');
+});
+
+document.getElementById('helpPopup').addEventListener('click', (e) => {
+  if (e.target.id === 'gotoKarl') {
+    const items = document.querySelectorAll('.alumni-item');
+    items.forEach(item => {
+      if (item.innerText.includes("Karl RICHARD")) {
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        item.classList.add('highlight');
+        setTimeout(() => item.classList.remove('highlight'), 2000);
+      }
+    });
+  }
+});
