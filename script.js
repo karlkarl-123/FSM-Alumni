@@ -4,8 +4,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let alumniData = [];
-let markers = [];
+let markerClusterGroup = L.markerClusterGroup();
 let listContainer = document.getElementById('alumniList');
+map.addLayer(markerClusterGroup);
 
 fetch('data.json')
   .then(res => res.json())
@@ -65,8 +66,9 @@ function updateUI() {
   });
 
   listContainer.innerHTML = '';
-  markers.forEach(m => map.removeLayer(m));
-  markers = [];
+  markerClusterGroup.clearLayers();
+
+  const locations = {};
 
   filtered.forEach(alum => {
     const li = document.createElement('li');
@@ -75,6 +77,7 @@ function updateUI() {
       <strong>${alum.nom}${alum.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong><br>
       <em>${alum.ville} — ${alum.établissement} — ${alum.promo}</em>
       <div class="details">
+        ${alum.filière ? `🎯 ${alum.filière}<br>` : ''}
         ${alum.mail ? `📧 ${alum.mail}<br>` : ''}
         ${alum.instagram ? `📸 ${alum.instagram}<br>` : ''}
         ${alum.linkedin ? `🔗 <a href="${alum.linkedin}" target="_blank">LinkedIn</a><br>` : ''}
@@ -86,17 +89,20 @@ function updateUI() {
     });
     listContainer.appendChild(li);
 
-    const marker = L.marker([alum.lat, alum.lng]).addTo(map)
-      .bindPopup(`<strong>${alum.nom}</strong>`);
+    const key = `${alum.lat},${alum.lng}`;
+    if (!locations[key]) locations[key] = [];
+    locations[key].push(alum);
+  });
 
-    marker.on('click', () => {
-      document.querySelectorAll('#alumniList li').forEach(el => el.classList.remove('highlight'));
-      li.classList.add('highlight');
-      document.getElementById('sidebar').classList.add('open');
-      document.getElementById('sidebar').classList.remove('closed');
-    });
-
-    markers.push(marker);
+  Object.entries(locations).forEach(([coords, people]) => {
+    const [lat, lng] = coords.split(',').map(Number);
+    const content = people.map(a => `
+      <strong>${a.nom}${a.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong><br>
+      <em>${a.ville} — ${a.établissement} — ${a.promo}</em>
+      <hr>
+    `).join('');
+    const marker = L.marker([lat, lng]).bindPopup(content);
+    markerClusterGroup.addLayer(marker);
   });
 }
 
