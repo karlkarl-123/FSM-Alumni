@@ -77,9 +77,10 @@ function updateUI() {
     const li = document.createElement('li');
     li.className = 'alumni-item';
     li.innerHTML = `
-      <strong>${alum.nom}${alum.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong><br>
-      <em>${alum.ville} — ${alum.établissement} — ${alum.promo}</em>
+      <strong>${alum.nom}${alum.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong> - <em>${alum.promo}</em>
       <div class="details">
+        ${alum.ville ? `🏙️ ${alum.ville}<br>` : ''}
+        ${alum.établissement ? `🏫 ${alum.établissement}<br>` : ''}
         ${alum.filière ? `🎯 ${alum.filière}<br>` : ''}
         ${alum.mail ? `📧 ${alum.mail}<br>` : ''}
         ${alum.instagram ? `📸 ${alum.instagram}<br>` : ''}
@@ -99,7 +100,12 @@ function updateUI() {
 
   Object.entries(locations).forEach(([coords, people]) => {
     const [lat, lng] = coords.split(',').map(Number);
-    const content = people.map(a => `<strong>${a.nom}</strong>`).join('<br>');
+    const content = (() => {
+      const preview = people.slice(0, 5).map(a => `<strong>${a.nom}</strong>`).join('<br>');
+      const more = people.length > 5 ? '<br>...' : '';
+      const header = `<em>${people[0].établissement}</em><hr>`;
+      return header + preview + more;
+    })();
     const marker = L.marker([lat, lng]).bindPopup(content);
     markerClusterGroup.addLayer(marker);
   });
