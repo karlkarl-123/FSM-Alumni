@@ -1,6 +1,19 @@
 
 [
     {
+        "nom": "Prénom NOM",
+        "ville": "Ville d'étude",
+        "promo": "classe prepa et année",
+        "établissement": "établissement post prépa",
+        "filière": "filière dans celui-ci",
+        "lat": 44.805620,
+        "lng": -0.604816,
+        "mail": "karlrichard215@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/karl-richard-649626336",
+        "instagram": "",
+        "telephone": "0607440536"
+    },
+    {
         "nom": "Karl RICHARD",
         "ville": "Bordeaux",
         "promo": "PC 24-25",
