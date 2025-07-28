@@ -1,4 +1,3 @@
-
 let map = L.map('map').setView([46.5, 2.2], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
@@ -42,7 +41,6 @@ function fillSelect(id, options) {
 ['filterPromo', 'filterVille', 'filterEtablissement', 'filterFiliere'].forEach(id => {
   document.getElementById(id).addEventListener('change', updateUI);
 });
-
 document.getElementById('searchInput').addEventListener('input', updateUI);
 
 function updateUI() {
@@ -67,10 +65,8 @@ function updateUI() {
   });
 
   filtered.sort((a, b) => a.nom.localeCompare(b.nom));
-
   listContainer.innerHTML = '';
   markerClusterGroup.clearLayers();
-
   const locations = {};
 
   filtered.forEach(alum => {
@@ -118,9 +114,11 @@ document.getElementById('burger').addEventListener('click', () => {
 });
 
 document.getElementById('helpButton').addEventListener('click', () => {
-  document.getElementById('helpPopup').classList.toggle('hidden');
+  document.getElementById('helpPopup').classList.remove('hidden');
 });
-
+document.getElementById('closeHelpPopup').addEventListener('click', () => {
+  document.getElementById('helpPopup').classList.add('hidden');
+});
 document.getElementById('gotoKarl').addEventListener('click', () => {
   map.setView([44.80562, -0.604816], 14);
 });
