@@ -1,91 +1,23 @@
 
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
+.hidden {
+  display: none;
 }
-#map {
-  height: 100%;
-  width: 100%;
-}
-#sidebar {
+
+#helpPopup {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 320px;
-  height: 100%;
-  background: #f9f9f9;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  overflow-y: auto;
+  top: 50px;
+  left: 50px;
+  background-color: white;
+  border: 1px solid #ccc;
   padding: 10px;
-  transition: transform 0.3s ease;
   z-index: 1000;
 }
-#sidebar.closed {
-  transform: translateX(100%);
-}
-#burger {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-  font-size: 24px;
-  background: white;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  z-index: 1100;
-}
-#filters {
-  margin-bottom: 10px;
-}
-#filters select, #searchInput {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 6px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-#alumniList {
-  list-style: none;
-  padding: 0;
-}
-.alumni-item {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.alumni-item:hover {
-  background: #f1f1f1;
-}
-.alumni-item .details {
-  display: none;
-  margin-top: 8px;
-  font-size: 0.9em;
-}
-.alumni-item.expanded .details {
-  display: block;
-}
-.badge {
-  background-color: #007bff;
-  color: white;
-  padding: 2px 5px;
-  margin-left: 5px;
-  border-radius: 4px;
-  font-size: 0.8em;
-}
-.highlight {
-  background-color: #e0f7fa;
-}
-#helpButton {
+
+#excelHelpButton {
   position: absolute;
   bottom: 20px;
-  left: 20px;
-  background-color: #3498db;
+  left: 160px;
+  background-color: #2ecc71;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -94,31 +26,30 @@ body, html {
   font-weight: bold;
   z-index: 1000;
 }
-#helpPopup {
-  position: absolute;
-  bottom: 60px;
-  left: 20px;
-  width: 250px;
+
+#excelHelpPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
   background-color: white;
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.2);
-  z-index: 1000;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  z-index: 2000;
 }
-#helpPopup.hidden {
-  display: none;
+
+#excelHelpContent {
+  position: relative;
 }
-#gotoKarl {
-  background-color: #f1c40f;
-  padding: 2px 6px;
-  border-radius: 4px;
+
+#closeExcelHelp {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 22px;
   cursor: pointer;
-}
-@media (max-width: 768px) {
-  #sidebar {
-    width: 100%;
-  }
-  #burger {
-    top: 10px;
-  }
+  color: #888;
 }
