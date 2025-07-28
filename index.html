@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carte des Alumni - Fénelon Sainte-Marie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { height: 80vh; width: 100%; }
+    #sidebar {
+      padding: 1rem;
+      max-height: 20vh;
+      overflow-y: auto;
+      background: #f4f4f4;
+      font-size: 0.9rem;
+    }
+    .alumni-entry { margin-bottom: 0.5rem; }
+    .alumni-entry strong { display: inline-block; width: 120px; }
+    input[type="text"] { margin-top: 5px; padding: 4px; width: 90%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="sidebar">
+    <input type="text" id="search" placeholder="Rechercher par nom ou ville...">
+    <div id="alumni-list"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
