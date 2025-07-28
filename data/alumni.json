@@ -1,22 +1,13 @@
 [
     {
-        "nom": "Alice Dupont",
-        "ville": "Lyon",
-        "lat": 45.75,
-        "lng": 4.85,
-        "mail": "alice.dupont@example.com",
-        "linkedin": "https://linkedin.com/in/alicedupont",
-        "instagram": "",
-        "telephone": ""
-    },
-    {
-        "nom": "Marc Petit",
+        "nom": "Karl Richard",
         "ville": "Bordeaux",
-        "lat": 44.84,
-        "lng": -0.58,
-        "mail": "marc.petit@example.com",
-        "linkedin": "",
-        "instagram": "https://instagram.com/marc_petit",
-        "telephone": "0612345678"
+        "lat": 44.805620,
+        "lng": -0.604816,
+        "mail": "karlrichard215@gmail.com",
+        "linkedin": "https://www.linkedin.com/in/karl-richard-649626336?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BItkBQ64GSIuutMzAi9OMfg%3D%3D",
+        "instagram": "",
+        "telephone": "0607440536"
     }
+    
 ]
