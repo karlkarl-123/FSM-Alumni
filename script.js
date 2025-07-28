@@ -1,3 +1,4 @@
+
 let map = L.map('map').setView([46.5, 2.2], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
@@ -65,6 +66,8 @@ function updateUI() {
     return matchFilters && (!search || searchText.includes(search));
   });
 
+  filtered.sort((a, b) => a.nom.localeCompare(b.nom));
+
   listContainer.innerHTML = '';
   markerClusterGroup.clearLayers();
 
@@ -96,11 +99,7 @@ function updateUI() {
 
   Object.entries(locations).forEach(([coords, people]) => {
     const [lat, lng] = coords.split(',').map(Number);
-    const content = people.map(a => `
-      <strong>${a.nom}${a.nom === "Karl RICHARD" ? ' <span class="badge">Modérateur</span>' : ''}</strong><br>
-      <em>${a.ville} — ${a.établissement} — ${a.promo}</em>
-      <hr>
-    `).join('');
+    const content = people.map(a => `<strong>${a.nom}</strong>`).join('<br>');
     const marker = L.marker([lat, lng]).bindPopup(content);
     markerClusterGroup.addLayer(marker);
   });
@@ -110,4 +109,12 @@ document.getElementById('burger').addEventListener('click', () => {
   const sidebar = document.getElementById('sidebar');
   sidebar.classList.toggle('open');
   sidebar.classList.toggle('closed');
+});
+
+document.getElementById('helpButton').addEventListener('click', () => {
+  document.getElementById('helpPopup').classList.toggle('hidden');
+});
+
+document.getElementById('gotoKarl').addEventListener('click', () => {
+  map.setView([44.80562, -0.604816], 14);
 });
