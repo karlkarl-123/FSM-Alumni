@@ -1,0 +1,22 @@
+[
+    {
+        "nom": "Alice Dupont",
+        "ville": "Lyon",
+        "lat": 45.75,
+        "lng": 4.85,
+        "mail": "alice.dupont@example.com",
+        "linkedin": "https://linkedin.com/in/alicedupont",
+        "instagram": "",
+        "telephone": ""
+    },
+    {
+        "nom": "Marc Petit",
+        "ville": "Bordeaux",
+        "lat": 44.84,
+        "lng": -0.58,
+        "mail": "marc.petit@example.com",
+        "linkedin": "",
+        "instagram": "https://instagram.com/marc_petit",
+        "telephone": "0612345678"
+    }
+]
