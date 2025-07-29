@@ -132,7 +132,6 @@ body, html {
 
 #helpPopup img {
   width: 100%;
-  max-height: 400px;
   object-fit: contain;
   border-radius: 8px;
   margin-top: 15px;
