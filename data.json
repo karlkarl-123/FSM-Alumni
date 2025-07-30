@@ -76,5 +76,44 @@
     "linkedin": "",
     "instagram": "ekain.ml",
     "telephone": ""
+  },
+  {
+    "nom": "Inès DE VARZALA",
+    "ville": "Grenoble",
+    "promo": "PC* 24-25",
+    "\u00e9tablissement": "Phelma",
+    "fili\u00e8re": "PMP",
+    "lat": 45.1957439,
+    "lng": 5.7100520,
+    "mail": "ines.devarzaladarc@gmail.com",
+    "linkedin": "",
+    "instagram": "ines_devrz",
+    "telephone": ""
+  },
+  {
+    "nom": "Dante MONTEALEGRE PAREDES",
+    "ville": "Lyon",
+    "promo": "PC** 24-25",
+    "\u00e9tablissement": "ENS Lyon",
+    "fili\u00e8re": "",
+    "lat": 45.73331,
+    "lng": 4.83398,
+    "mail": "dante.montealegreparedes@gmail.com",
+    "linkedin": "",
+    "instagram": "",
+    "telephone": "0783596352"
+  },
+  {
+    "nom": "Christopher ATALLAH",
+    "ville": "Cachan",
+    "promo": "PC 24-25",
+    "\u00e9tablissement": "ESTP",
+    "fili\u00e8re": "",
+    "lat": 48.799103,
+    "lng": 2.333603,
+    "mail": "christopheratallah5@gmail.com",
+    "linkedin": "",
+    "instagram": "christopher_ath",
+    "telephone": "0684306388"
   }
 ]
