@@ -119,7 +119,9 @@ document.getElementById('gotoKarl').addEventListener('click', () => {
 fetch("https://script.google.com/macros/s/AKfycbyo3ZylylHIAWmUX8jD27PnELFF-S8W_eE9pCIVXlUathh1N0bVECgR-RGKNEeL27GT/exec")
   .then(res => res.json())
   .then(data => {
-    console.log("Alumni reçus :", data);
-    initMap(data);
+    alumniData = data;
+    populateFilters(data);
+    updateUI();
   })
-  .catch(err => console.error("Erreur chargement JSON :", err));
+  .catch(err => console.error("Erreur chargement données Sheets :", err));
+
