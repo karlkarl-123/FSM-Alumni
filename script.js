@@ -8,13 +8,6 @@ let markerClusterGroup = L.markerClusterGroup();
 let listContainer = document.getElementById('alumniList');
 map.addLayer(markerClusterGroup);
 
-fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
-    alumniData = data;
-    populateFilters(data);
-    updateUI();
-  });
 
 function populateFilters(data) {
   const promos = [...new Set(data.map(p => p.promo))].sort();
