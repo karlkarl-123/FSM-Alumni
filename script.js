@@ -122,3 +122,11 @@ document.getElementById('closeHelpPopup').addEventListener('click', () => {
 document.getElementById('gotoKarl').addEventListener('click', () => {
   map.setView([44.80562, -0.604816], 14);
 });
+
+fetch("https://script.google.com/macros/s/TON_ID/exec")
+  .then(res => res.json())
+  .then(data => {
+    console.log("Alumni reçus :", data);
+    initMap(data);
+  })
+  .catch(err => console.error("Erreur chargement JSON :", err));
