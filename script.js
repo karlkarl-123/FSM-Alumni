@@ -91,7 +91,7 @@ function updateUI() {
     const [lat, lng] = coords.split(',').map(Number);
     const content = (() => {
       const preview = people.slice(0, 5).map(a => `<strong>${a.nom}</strong>`).join('<br>');
-      const more = people.length > 5 ? '<br>...' : '';
+      const more = people.length > 5 ? '<br>et autre...' : '';
       const header = `<em>${people[0].établissement}</em><hr>`;
       return header + preview + more;
     })();
