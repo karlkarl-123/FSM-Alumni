@@ -13,6 +13,7 @@ function createMultiSelect(idContainer, options) {
   const container = document.getElementById(idContainer);
   const dropdown = container.querySelector('.multi-select-dropdown');
 
+  // Reset options
   dropdown.innerHTML = '';
   options.forEach(opt => {
     const label = document.createElement('label');
@@ -20,7 +21,7 @@ function createMultiSelect(idContainer, options) {
     dropdown.appendChild(label);
   });
 
-  // Ouverture/fermeture du menu
+  // Toggle dropdown on label click
   container.querySelector('.multi-select-label').addEventListener('click', (e) => {
     e.stopPropagation(); // empêche le clic de remonter
     dropdown.classList.toggle('hidden');
@@ -37,7 +38,9 @@ function getMultiSelectValues(idContainer) {
 // --- Listener global pour fermer tous les dropdowns si clic à l'extérieur ---
 document.addEventListener('click', () => {
   document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
-    drop.classList.add('hidden');
+    if (!drop.classList.contains('hidden')) {
+      drop.classList.add('hidden');
+    }
   });
 });
 
