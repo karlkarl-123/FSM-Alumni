@@ -173,3 +173,11 @@ fetch("https://script.google.com/macros/s/AKfycbxJjaKN27sdqPunjfqEFi6pIAH5TqtiiC
     updateUI();
   })
   .catch(err => console.error("Erreur chargement données Sheets :", err));
+
+label.addEventListener('click', (e) => {
+  e.stopPropagation();
+  document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
+    if (drop !== dropdown) drop.classList.add('hidden');
+  });
+  dropdown.classList.toggle('hidden');
+});
