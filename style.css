@@ -136,3 +136,32 @@ body, html {
   border-radius: 8px;
   margin-top: 15px;
 }
+/* Style pour les selects multi */
+select[multiple] {
+  height: auto;
+  min-height: 60px;
+  max-height: 140px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* Amélioration du survol */
+select[multiple] option {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+select[multiple] option:hover {
+  background-color: #e6f0ff;
+}
+
+/* Quand un élément est sélectionné */
+select[multiple] option:checked {
+  background-color: #3498db;
+  color: white;
+}
