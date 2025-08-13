@@ -202,3 +202,6 @@ select[multiple] option:checked {
 .multi-select-dropdown label:hover {
   background-color: #f1f1f1;
 }
+.hidden {
+  display: none;
+}
