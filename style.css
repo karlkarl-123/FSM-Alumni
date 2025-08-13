@@ -165,3 +165,40 @@ select[multiple] option:checked {
   background-color: #3498db;
   color: white;
 }
+.multi-select {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.multi-select-label {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.multi-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 140px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.multi-select-dropdown label {
+  display: block;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.multi-select-dropdown label:hover {
+  background-color: #f1f1f1;
+}
