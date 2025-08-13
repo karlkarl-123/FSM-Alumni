@@ -14,6 +14,9 @@ function createMultiSelect(idContainer, options) {
   const dropdown = container.querySelector('.multi-select-dropdown');
   const label = container.querySelector('.multi-select-label');
 
+  // Assure que le dropdown est caché au départ
+  dropdown.classList.add('hidden');
+
   // Reset options
   dropdown.innerHTML = '';
   options.forEach(opt => {
