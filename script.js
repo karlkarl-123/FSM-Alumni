@@ -13,27 +13,33 @@ function createMultiSelect(idContainer, options) {
   const container = document.getElementById(idContainer);
   const dropdown = container.querySelector('.multi-select-dropdown');
 
-  dropdown.innerHTML = ''; // reset
+  dropdown.innerHTML = '';
   options.forEach(opt => {
     const label = document.createElement('label');
     label.innerHTML = `<input type="checkbox" value="${opt}"> ${opt}`;
     dropdown.appendChild(label);
   });
 
+  // Ouverture/fermeture du menu
   container.querySelector('.multi-select-label').addEventListener('click', (e) => {
+    e.stopPropagation(); // empêche le clic de remonter
     dropdown.classList.toggle('hidden');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!container.contains(e.target)) dropdown.classList.add('hidden');
   });
 }
 
+// --- Récupérer les valeurs cochées ---
 function getMultiSelectValues(idContainer) {
   const container = document.getElementById(idContainer);
   const checked = container.querySelectorAll('input:checked');
   return Array.from(checked).map(i => i.value.toLowerCase());
 }
+
+// --- Listener global pour fermer tous les dropdowns si clic à l'extérieur ---
+document.addEventListener('click', () => {
+  document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
+    drop.classList.add('hidden');
+  });
+});
 
 // --- Mise à jour de l'affichage ---
 function updateUI() {
