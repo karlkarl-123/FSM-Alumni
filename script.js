@@ -72,7 +72,7 @@ function updateUI() {
         ${alum.établissement ? `🏫 ${alum.établissement}<br>` : ''}
         ${alum.filière ? `🎯 ${alum.filière}<br>` : ''}
         ${alum.mail ? `📧 ${alum.mail}<br>` : ''}
-        ${alum.instagram ? `📸 '(insta)' ${alum.instagram}<br>` : ''}
+        ${alum.instagram ? `📸 (insta) ${alum.instagram}<br>` : ''}
         ${alum.linkedin ? `🔗 <a href="${alum.linkedin}" target="_blank">LinkedIn</a><br>` : ''}
         ${alum.telephone ? `📞 ${alum.telephone}<br>` : ''}
       </div>
