@@ -14,7 +14,11 @@ function createMultiSelect(idContainer, options) {
   const dropdown = container.querySelector('.multi-select-dropdown');
   const label = container.querySelector('.multi-select-label');
 
-  // Assure que le dropdown est caché au départ
+  // Sauvegarde le texte initial du label pour pouvoir le restaurer
+  const initialLabel = label.textContent;
+  container.dataset.label = initialLabel;
+
+  // Force la fermeture du dropdown au départ
   dropdown.classList.add('hidden');
 
   // Reset options
@@ -38,7 +42,7 @@ function createMultiSelect(idContainer, options) {
   function updateLabel() {
     const checked = dropdown.querySelectorAll('input:checked');
     if (checked.length === 0) {
-      label.textContent = "Sélectionner…";
+      label.textContent = container.dataset.label; // texte initial
     } else if (checked.length === 1) {
       label.textContent = checked[0].value;
     } else {
@@ -49,9 +53,12 @@ function createMultiSelect(idContainer, options) {
   // Initialisation du label
   updateLabel();
 
-  // Toggle dropdown
+  // Toggle dropdown + fermer les autres dropdowns
   label.addEventListener('click', (e) => {
     e.stopPropagation();
+    document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
+      if (drop !== dropdown) drop.classList.add('hidden');
+    });
     dropdown.classList.toggle('hidden');
   });
 }
@@ -66,9 +73,7 @@ function getMultiSelectValues(idContainer) {
 // --- Listener global pour fermer tous les dropdowns si clic à l'extérieur ---
 document.addEventListener('click', () => {
   document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
-    if (!drop.classList.contains('hidden')) {
-      drop.classList.add('hidden');
-    }
+    drop.classList.add('hidden');
   });
 });
 
@@ -173,11 +178,3 @@ fetch("https://script.google.com/macros/s/AKfycbxJjaKN27sdqPunjfqEFi6pIAH5TqtiiC
     updateUI();
   })
   .catch(err => console.error("Erreur chargement données Sheets :", err));
-
-label.addEventListener('click', (e) => {
-  e.stopPropagation();
-  document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
-    if (drop !== dropdown) drop.classList.add('hidden');
-  });
-  dropdown.classList.toggle('hidden');
-});
