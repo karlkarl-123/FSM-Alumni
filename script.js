@@ -8,22 +8,47 @@ let markerClusterGroup = L.markerClusterGroup();
 let listContainer = document.getElementById('alumniList');
 map.addLayer(markerClusterGroup);
 
-// --- Création des dropdowns multi-select ---
+// --- Création des dropdowns multi-select avec label dynamique ---
 function createMultiSelect(idContainer, options) {
   const container = document.getElementById(idContainer);
   const dropdown = container.querySelector('.multi-select-dropdown');
+  const label = container.querySelector('.multi-select-label');
 
   // Reset options
   dropdown.innerHTML = '';
   options.forEach(opt => {
-    const label = document.createElement('label');
-    label.innerHTML = `<input type="checkbox" value="${opt}"> ${opt}`;
-    dropdown.appendChild(label);
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.value = opt;
+
+    const lbl = document.createElement('label');
+    lbl.appendChild(checkbox);
+    lbl.appendChild(document.createTextNode(' ' + opt));
+
+    dropdown.appendChild(lbl);
+
+    // Quand on coche/décoche, mettre à jour le texte du label
+    checkbox.addEventListener('change', updateLabel);
   });
 
-  // Toggle dropdown on label click
-  container.querySelector('.multi-select-label').addEventListener('click', (e) => {
-    e.stopPropagation(); // empêche le clic de remonter
+  // Fonction pour mettre à jour le texte du label
+  function updateLabel() {
+    const checked = dropdown.querySelectorAll('input:checked');
+    if (checked.length === 0) {
+      label.textContent = "Sélectionner…";
+    } else if (checked.length === 1) {
+      label.textContent = checked[0].value;
+    } else {
+      label.textContent = checked.length + " sélectionnés";
+    }
+  }
+
+  // Initialisation du label
+  updateLabel();
+
+  // Toggle dropdown
+  label.addEventListener('click', (e) => {
+    e.stopPropagation();
     dropdown.classList.toggle('hidden');
   });
 }
