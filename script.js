@@ -8,49 +8,39 @@ let markerClusterGroup = L.markerClusterGroup();
 let listContainer = document.getElementById('alumniList');
 map.addLayer(markerClusterGroup);
 
-// --- Fonction pour remplir les filtres ---
-function populateFilters(data) {
-  const promos = [...new Set(data.map(p => p.promo))].sort();
-  const villes = [...new Set(data.map(p => p.ville))].sort();
-  const etabs = [...new Set(data.map(p => p.établissement))].sort();
-  const filieres = [...new Set(data.map(p => p.filière))].sort();
+// --- Création des dropdowns multi-select ---
+function createMultiSelect(idContainer, options) {
+  const container = document.getElementById(idContainer);
+  const dropdown = container.querySelector('.multi-select-dropdown');
 
-  fillSelect('filterPromo', promos);
-  fillSelect('filterVille', villes);
-  fillSelect('filterEtablissement', etabs);
-  fillSelect('filterFiliere', filieres);
-}
-
-function fillSelect(id, options) {
-  const select = document.getElementById(id);
+  dropdown.innerHTML = ''; // reset
   options.forEach(opt => {
-    const o = document.createElement('option');
-    o.value = opt;
-    o.textContent = opt;
-    select.appendChild(o);
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${opt}"> ${opt}`;
+    dropdown.appendChild(label);
+  });
+
+  container.querySelector('.multi-select-label').addEventListener('click', (e) => {
+    dropdown.classList.toggle('hidden');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!container.contains(e.target)) dropdown.classList.add('hidden');
   });
 }
 
-// --- Nouvelle fonction : récupérer toutes les valeurs sélectionnées ---
-function getSelectedValues(id) {
-  const select = document.getElementById(id);
-  return Array.from(select.selectedOptions)
-              .map(opt => opt.value.toLowerCase())
-              .filter(v => v !== "");
+function getMultiSelectValues(idContainer) {
+  const container = document.getElementById(idContainer);
+  const checked = container.querySelectorAll('input:checked');
+  return Array.from(checked).map(i => i.value.toLowerCase());
 }
-
-// --- Événements sur les filtres ---
-['filterPromo', 'filterVille', 'filterEtablissement', 'filterFiliere'].forEach(id => {
-  document.getElementById(id).addEventListener('change', updateUI);
-});
-document.getElementById('searchInput').addEventListener('input', updateUI);
 
 // --- Mise à jour de l'affichage ---
 function updateUI() {
-  const promos = getSelectedValues('filterPromo');
-  const villes = getSelectedValues('filterVille');
-  const etabs = getSelectedValues('filterEtablissement');
-  const filieres = getSelectedValues('filterFiliere');
+  const promos = getMultiSelectValues('filterPromoContainer');
+  const villes = getMultiSelectValues('filterVilleContainer');
+  const etabs = getMultiSelectValues('filterEtablissementContainer');
+  const filieres = getMultiSelectValues('filterFiliereContainer');
   const search = document.getElementById('searchInput').value.toLowerCase();
 
   const filtered = alumniData.filter(a => {
@@ -87,9 +77,7 @@ function updateUI() {
         ${alum.telephone ? `📞 ${alum.telephone}<br>` : ''}
       </div>
     `;
-    li.addEventListener('click', () => {
-      li.classList.toggle('expanded');
-    });
+    li.addEventListener('click', () => li.classList.toggle('expanded'));
     listContainer.appendChild(li);
 
     const key = `${alum.lat},${alum.lng}`;
@@ -110,7 +98,18 @@ function updateUI() {
   });
 }
 
-// --- Bouton burger ---
+// --- Initialisation dropdowns après chargement des données ---
+function populateFilters(data) {
+  createMultiSelect('filterPromoContainer', [...new Set(data.map(p => p.promo))].sort());
+  createMultiSelect('filterVilleContainer', [...new Set(data.map(p => p.ville))].sort());
+  createMultiSelect('filterEtablissementContainer', [...new Set(data.map(p => p.établissement))].sort());
+  createMultiSelect('filterFiliereContainer', [...new Set(data.map(p => p.filière))].sort());
+}
+
+// --- Event recherche ---
+document.getElementById('searchInput').addEventListener('input', updateUI);
+
+// --- Burger sidebar ---
 document.getElementById('burger').addEventListener('click', () => {
   const sidebar = document.getElementById('sidebar');
   sidebar.classList.toggle('open');
