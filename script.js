@@ -8,7 +8,7 @@ let markerClusterGroup = L.markerClusterGroup();
 let listContainer = document.getElementById('alumniList');
 map.addLayer(markerClusterGroup);
 
-
+// --- Fonction pour remplir les filtres ---
 function populateFilters(data) {
   const promos = [...new Set(data.map(p => p.promo))].sort();
   const villes = [...new Set(data.map(p => p.ville))].sort();
@@ -31,24 +31,34 @@ function fillSelect(id, options) {
   });
 }
 
+// --- Nouvelle fonction : récupérer toutes les valeurs sélectionnées ---
+function getSelectedValues(id) {
+  const select = document.getElementById(id);
+  return Array.from(select.selectedOptions)
+              .map(opt => opt.value.toLowerCase())
+              .filter(v => v !== "");
+}
+
+// --- Événements sur les filtres ---
 ['filterPromo', 'filterVille', 'filterEtablissement', 'filterFiliere'].forEach(id => {
   document.getElementById(id).addEventListener('change', updateUI);
 });
 document.getElementById('searchInput').addEventListener('input', updateUI);
 
+// --- Mise à jour de l'affichage ---
 function updateUI() {
-  const promo = document.getElementById('filterPromo').value.toLowerCase();
-  const ville = document.getElementById('filterVille').value.toLowerCase();
-  const etab = document.getElementById('filterEtablissement').value.toLowerCase();
-  const filiere = document.getElementById('filterFiliere').value.toLowerCase();
+  const promos = getSelectedValues('filterPromo');
+  const villes = getSelectedValues('filterVille');
+  const etabs = getSelectedValues('filterEtablissement');
+  const filieres = getSelectedValues('filterFiliere');
   const search = document.getElementById('searchInput').value.toLowerCase();
 
   const filtered = alumniData.filter(a => {
     const matchFilters =
-      (!promo || a.promo.toLowerCase() === promo) &&
-      (!ville || a.ville.toLowerCase() === ville) &&
-      (!etab || a.établissement.toLowerCase() === etab) &&
-      (!filiere || a.filière.toLowerCase() === filiere);
+      (!promos.length || promos.includes(a.promo.toLowerCase())) &&
+      (!villes.length || villes.includes(a.ville.toLowerCase())) &&
+      (!etabs.length || etabs.includes(a.établissement.toLowerCase())) &&
+      (!filieres.length || filieres.includes(a.filière.toLowerCase()));
 
     const searchText = [
       a.nom, a.ville, a.promo, a.établissement, a.filière
@@ -100,12 +110,14 @@ function updateUI() {
   });
 }
 
+// --- Bouton burger ---
 document.getElementById('burger').addEventListener('click', () => {
   const sidebar = document.getElementById('sidebar');
   sidebar.classList.toggle('open');
   sidebar.classList.toggle('closed');
 });
 
+// --- Popup d'aide ---
 document.getElementById('helpButton').addEventListener('click', () => {
   document.getElementById('helpPopup').classList.remove('hidden');
 });
@@ -116,6 +128,7 @@ document.getElementById('gotoKarl').addEventListener('click', () => {
   map.setView([44.80562, -0.604816], 14);
 });
 
+// --- Chargement des données ---
 fetch("https://script.google.com/macros/s/AKfycbxJjaKN27sdqPunjfqEFi6pIAH5TqtiiCwHem6J0jBL3qy4x34v0ZY2BkI3ixh0IRrU/exec")
   .then(res => res.json())
   .then(data => {
@@ -124,10 +137,3 @@ fetch("https://script.google.com/macros/s/AKfycbxJjaKN27sdqPunjfqEFi6pIAH5TqtiiC
     updateUI();
   })
   .catch(err => console.error("Erreur chargement données Sheets :", err));
-
-
-
-
-
-
-
