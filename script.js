@@ -72,7 +72,7 @@ function updateUI() {
         ${alum.établissement ? `🏫 ${alum.établissement}<br>` : ''}
         ${alum.filière ? `🎯 ${alum.filière}<br>` : ''}
         ${alum.mail ? `📧 ${alum.mail}<br>` : ''}
-        ${alum.instagram ? `📸 ${alum.instagram}<br>` : ''}
+        ${alum.instagram ? `📸 '(insta)' ${alum.instagram}<br>` : ''}
         ${alum.linkedin ? `🔗 <a href="${alum.linkedin}" target="_blank">LinkedIn</a><br>` : ''}
         ${alum.telephone ? `📞 ${alum.telephone}<br>` : ''}
       </div>
@@ -124,4 +124,10 @@ fetch("https://script.google.com/macros/s/AKfycbxJjaKN27sdqPunjfqEFi6pIAH5TqtiiC
     updateUI();
   })
   .catch(err => console.error("Erreur chargement données Sheets :", err));
+
+
+
+
+
+
 
