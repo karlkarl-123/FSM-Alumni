@@ -14,49 +14,42 @@ function createMultiSelect(idContainer, options) {
   const dropdown = container.querySelector('.multi-select-dropdown');
   const label = container.querySelector('.multi-select-label');
 
-  // Sauvegarde le texte initial du label pour pouvoir le restaurer
   const initialLabel = label.textContent;
   container.dataset.label = initialLabel;
 
-  // Force la fermeture du dropdown au départ
   dropdown.classList.add('hidden');
-
-  // Reset options
   dropdown.innerHTML = '';
+
   options.forEach(opt => {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.value = opt.toLowerCase();   // <--- valeur normalisée pour comparer
+    checkbox.value = opt.toLowerCase(); // valeur pour comparer
 
     const lbl = document.createElement('label');
     lbl.appendChild(checkbox);
-    lbl.appendChild(document.createTextNode(' ' + opt)); // affichage intact
+    lbl.appendChild(document.createTextNode(' ' + opt)); // affichage joli
 
     dropdown.appendChild(lbl);
 
-    // Quand on coche/décoche, mettre à jour le texte du label
     checkbox.addEventListener('change', () => {
       updateLabel();
-      updateUI(); // <-- nouvelle ligne pour mettre à jour la liste immédiatement
-});
+      if (alumniData.length) updateUI(); // seulement si données chargées
+    });
+  });
 
-
-  // Fonction pour mettre à jour le texte du label
   function updateLabel() {
     const checked = dropdown.querySelectorAll('input:checked');
     if (checked.length === 0) {
-      label.textContent = container.dataset.label; // texte initial
+      label.textContent = container.dataset.label;
     } else if (checked.length === 1) {
-      label.textContent = checked[0].nextSibling.textContent; // afficher joli texte
+      label.textContent = checked[0].nextSibling.textContent;
     } else {
       label.textContent = checked.length + " sélectionnés";
     }
   }
 
-  // Initialisation du label
   updateLabel();
 
-  // Toggle dropdown + fermer les autres dropdowns
   label.addEventListener('click', (e) => {
     e.stopPropagation();
     document.querySelectorAll('.multi-select-dropdown').forEach(drop => {
@@ -82,6 +75,8 @@ document.addEventListener('click', () => {
 
 // --- Mise à jour de l'affichage ---
 function updateUI() {
+  if (!alumniData.length) return;
+
   const promos = getMultiSelectValues('filterPromoContainer');
   const villes = getMultiSelectValues('filterVilleContainer');
   const etabs = getMultiSelectValues('filterEtablissementContainer');
@@ -125,9 +120,11 @@ function updateUI() {
     li.addEventListener('click', () => li.classList.toggle('expanded'));
     listContainer.appendChild(li);
 
-    const key = `${alum.lat},${alum.lng}`;
-    if (!locations[key]) locations[key] = [];
-    locations[key].push(alum);
+    if (alum.lat && alum.lng) { // sécurité pour la carte
+      const key = `${alum.lat},${alum.lng}`;
+      if (!locations[key]) locations[key] = [];
+      locations[key].push(alum);
+    }
   });
 
   Object.entries(locations).forEach(([coords, people]) => {
