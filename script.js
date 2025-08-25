@@ -26,17 +26,20 @@ function createMultiSelect(idContainer, options) {
   options.forEach(opt => {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.value = opt;
+    checkbox.value = opt.toLowerCase();   // <--- valeur normalisée pour comparer
 
     const lbl = document.createElement('label');
     lbl.appendChild(checkbox);
-    lbl.appendChild(document.createTextNode(' ' + opt));
+    lbl.appendChild(document.createTextNode(' ' + opt)); // affichage intact
 
     dropdown.appendChild(lbl);
 
     // Quand on coche/décoche, mettre à jour le texte du label
-    checkbox.addEventListener('change', updateLabel);
-  });
+    checkbox.addEventListener('change', () => {
+      updateLabel();
+      updateUI(); // <-- nouvelle ligne pour mettre à jour la liste immédiatement
+});
+
 
   // Fonction pour mettre à jour le texte du label
   function updateLabel() {
@@ -44,7 +47,7 @@ function createMultiSelect(idContainer, options) {
     if (checked.length === 0) {
       label.textContent = container.dataset.label; // texte initial
     } else if (checked.length === 1) {
-      label.textContent = checked[0].value;
+      label.textContent = checked[0].nextSibling.textContent; // afficher joli texte
     } else {
       label.textContent = checked.length + " sélectionnés";
     }
@@ -67,7 +70,7 @@ function createMultiSelect(idContainer, options) {
 function getMultiSelectValues(idContainer) {
   const container = document.getElementById(idContainer);
   const checked = container.querySelectorAll('input:checked');
-  return Array.from(checked).map(i => i.value.toLowerCase());
+  return Array.from(checked).map(i => i.value); // déjà en lowercase
 }
 
 // --- Listener global pour fermer tous les dropdowns si clic à l'extérieur ---
